@@ -37,7 +37,7 @@ def perceptron(Sn, max_iterations=500, through_origin=False, verbose=False):
 	theta_zero = 0
 	theta = np.zeros(Sn[0][0].shape)
 	current_iteration = 0 			# keep track of the number of iterations
-	correct_classified_streak = 0
+	correct_classified_streak = 0	# how many examples have we correctly classified in a row? If we've classified all n of them, we've converged
 	while current_iteration < max_iterations and correct_classified_streak < n: # stop if we've exceeded max allowed iterations or if we've converged
 		correct_classified_streak += 1
 		index = current_iteration%n
@@ -64,26 +64,38 @@ def perceptron(Sn, max_iterations=500, through_origin=False, verbose=False):
 		print
 	return (theta, theta_zero)
 
+
+'''
+Sn is a list with elements of the form (x,y) where x is a numpy array and y is -1 or 1
+	each x is a feature vector of dimension 2
+	each y is a label
+theta_params is a tuple of the form (theta, theta_zero)
+	theta is a 2-dimensional numpy array
+	theta_zero is a number
+
+return: None, but will plot the positive(+1 label) and negative(-1 label) training vectors and the boundary theta[0]*X + theta[1]*Y + theta_zero = 0 (if theta_params is not None, NOTE: X and Y here are the cartesian variables for the x and y axes)
+'''
 def plot_2D_training(Sn, theta_params=None):
-	pos_x = [x[0] for (x,y) in Sn if y==1]
+	pos_x = [x[0] for (x,y) in Sn if y==1]	# get the x and y coordinates for the positive and negative training samples
 	neg_x = [x[0] for (x,y) in Sn if y==-1]
 	pos_y = [x[1] for (x,y) in Sn if y==1]
 	neg_y = [x[1] for (x,y) in Sn if y==-1]
-	plt.plot(pos_x, pos_y, "r+")
-	plt.plot(neg_x, neg_y, "bx")
-	if theta_params is not None:
+	plt.plot(pos_x, pos_y, "r+")			# plot positive samples with a plus
+	plt.plot(neg_x, neg_y, "bx")			# plot negative samples with an "x"
+	if theta_params is not None:			# if the theta params are avaiable, plot the decision boundary
 		(theta, theta_zero) = theta_params
-		X = [min(min(pos_x), min(neg_x)),max(max(pos_x), max(neg_x))]
-		Y = [(-1.0*theta_zero - theta[0]*X[0])/theta[1], (-1.0*theta_zero - theta[0]*X[1])/theta[1]]
+		X = [min(min(pos_x), min(neg_x)),max(max(pos_x), max(neg_x))]	# make sure the boundary covers the screen by finding the samples at the fringes of thes screen
+		Y = [(-1.0*theta_zero - theta[0]*X[0])/theta[1], (-1.0*theta_zero - theta[0]*X[1])/theta[1]] # find their corresponding y coordinates
 		plt.plot(X, Y, color="k", linestyle="-",linewidth=2)
 	plt.show()
 
 
-Sn = [
-(np.array([-1,-3]), 1),
-(np.array([3,4]), 1),
-(np.array([-2,-2]), -1),
-(np.array([-1,-2]), -1)
-]
+if __name__ == "__main__":
+	Sn = [
+	(np.array([-1,-3]), 1),
+	(np.array([3,4]), 1),
+	(np.array([-2,-2]), -1),
+	(np.array([-1,-2]), -1)
+	]
 
-print plot_2D_training(Sn,perceptron(Sn, verbose=True))
+	plot_2D_training(Sn,perceptron(Sn, verbose=True))
