@@ -80,22 +80,22 @@ def plot_2D_training(Sn, theta_params=None):
 	neg_x = [x[0] for (x,y) in Sn if y==-1]
 	pos_y = [x[1] for (x,y) in Sn if y==1]
 	neg_y = [x[1] for (x,y) in Sn if y==-1]
-	plt.plot(pos_x, pos_y, "r+")			# plot positive samples with a plus
-	plt.plot(neg_x, neg_y, "bx")			# plot negative samples with an "x"
+	plt.plot(pos_x, pos_y, "r+", ms=10)			# plot positive samples with a plus
+	plt.plot(neg_x, neg_y, "bo", ms=10)			# plot negative samples with an "x"
 	if theta_params is not None:			# if the theta params are avaiable, plot the decision boundary
 		(theta, theta_zero) = theta_params
-		X = [min(min(pos_x), min(neg_x)),max(max(pos_x), max(neg_x))]	# make sure the boundary covers the screen by finding the samples at the fringes of thes screen
+		X = [min(min(pos_x), min(neg_x))*1.5,max(max(pos_x), max(neg_x))*1.5]	# make sure the boundary covers the screen by finding the samples at the fringes of thes screen
 		Y = [(-1.0*theta_zero - theta[0]*X[0])/theta[1], (-1.0*theta_zero - theta[0]*X[1])/theta[1]] # find their corresponding y coordinates
 		plt.plot(X, Y, color="k", linestyle="-",linewidth=2)
+	plt.grid()
 	plt.show()
 
 
 if __name__ == "__main__":
 	Sn = [
-	(np.array([-1,-3]), 1),
-	(np.array([3,4]), 1),
-	(np.array([-2,-2]), -1),
-	(np.array([-1,-2]), -1)
+	(np.array([-1,1]), 1),
+	(np.array([0,-1]), -1),
+	(np.array([1.5,1]), 1)
 	]
 
-	plot_2D_training(Sn,perceptron(Sn, verbose=True))
+	plot_2D_training(Sn,perceptron(Sn, verbose=True, through_origin=True))
