@@ -25,6 +25,11 @@ max_iterations is the number of maximum number of cycles allowed before we call 
 through_origin is True if we want our separating boundary to pass through the origin
 epsilon is used to determine if something is nearly zero (i.e. x is nearly zero if abs(x) <= epsilon)
 verbose is true if we want debugging output
+start_with is the index of the training example we should start cycling with
+plot_after_misclassification is True if we should display a plot every time we misclassify and update the theta params (the plot needs to close for the program to continue)
+initial_theta is the initial value of theta (should be a list)
+initial_theta_zero is the initial value of theta_zero (should be a number)
+
 
 return: (theta, theta_zero) where theta is a d-dimensional numpy array and theta_zero is a number.
 This represents the hypothesis:
