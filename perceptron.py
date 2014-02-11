@@ -18,7 +18,7 @@ def error(h, Sn):
 	return total_sum / n
 
 '''
-Sn is a list of the form (x,y) where x is a numpy array and y is -1 or 1
+Sn is a list with elements of the form (x,y) where x is a numpy array and y is -1 or 1
 	each x is a feature vector of dimension d
 	each y is a label
 max_iterations is the number of maximum number of cycles allowed before we call it quits
